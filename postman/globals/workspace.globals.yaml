@@ -1,0 +1,5 @@
+name: Globals
+values:
+  - key: bookId
+    value: ''
+    enabled: true

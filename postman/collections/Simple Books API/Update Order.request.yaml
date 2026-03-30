@@ -1,0 +1,72 @@
+$kind: http-request
+name: Update Order
+method: PATCH
+url: '{{baseUrl}}/orders/:orderId'
+order: 8000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{accessToken}}'
+pathVariables:
+  - key: orderId
+    value: '{{lastOrderId}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+        "bookId": 1,
+        "customerName": "Sam {{$randomLastName}}"
+    }
+scripts:
+  - type: beforeRequest
+    language: text/javascript
+    code: |-
+      // Pre-request script for Orders folder/requests
+      const accessToken = pm.environment.get("accessToken");
+
+      if (!accessToken) {
+          console.error("accessToken is not set. Ensure 'Register API Client' runs first.");
+          throw new Error("Missing accessToken - cannot authenticate order requests");
+      }
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      // Safely parse request body only if it exists and is non-empty
+      let updatedName = null;
+      if (pm.request.body && pm.request.body.raw && pm.request.body.raw.trim() !== '') {
+          try {
+              const requestBody = JSON.parse(pm.request.body.raw);
+              updatedName = requestBody.customerName;
+          } catch (e) {
+              console.log("Could not parse request body:", e.message);
+          }
+      }
+
+      pm.test("Status code is 204", () => {
+          pm.expect(pm.response.code).to.equal(204);
+      });
+
+      // Only attempt to parse response JSON if there is a non-empty body
+      const responseText = pm.response.text();
+      if (responseText && responseText.trim() !== '') {
+          try {
+              const response = pm.response.json();
+              if (response && response.customerName && updatedName) {
+                  pm.test("Response body reflects the name change", () => {
+                      pm.expect(response.customerName).to.equal(updatedName);
+                  });
+              }
+          } catch (e) {
+              console.log("Could not parse response as JSON:", e.message);
+          }
+      }
+
+      // Store the updated name for verification by the next GET request
+      if (updatedName) {
+          console.log("Updated Customer Name to:", updatedName);
+          pm.collectionVariables.set("expectedUpdatedName", updatedName);
+      }

@@ -1,0 +1,82 @@
+$kind: http-request
+url: "{{baseUrl}}/orders/:orderId"
+method: PATCH
+pathVariables:
+  orderId: "{{lastOrderId}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"bookId\": 1,\r
+
+    \    \"customerName\": \"Sam {{$randomLastName}}\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: >-
+      // Safely parse request body only if it exists and is non-empty
+
+      let updatedName = null;
+
+      if (pm.request.body && pm.request.body.raw && pm.request.body.raw.trim()
+      !== '') {
+          try {
+              const requestBody = JSON.parse(pm.request.body.raw);
+              updatedName = requestBody.customerName;
+          } catch (e) {
+              console.log("Could not parse request body:", e.message);
+          }
+      }
+
+
+      pm.test("Status code is 204", () => {
+          pm.expect(pm.response.code).to.equal(204);
+      });
+
+
+      // Only attempt to parse response JSON if there is a non-empty body
+
+      const responseText = pm.response.text();
+
+      if (responseText && responseText.trim() !== '') {
+          try {
+              const response = pm.response.json();
+              
+              // If the API returns the updated object (e.g., 200 OK with body)
+              if (response && response.customerName && updatedName) {
+                  pm.test("Response body reflects the name change", () => {
+                      pm.expect(response.customerName).to.equal(updatedName);
+                  });
+              }
+          } catch (e) {
+              console.log("Could not parse response as JSON:", e.message);
+          }
+      }
+
+
+      // Store the updated name for verification by the next GET request
+
+      if (updatedName) {
+          console.log("Updated Customer Name to:", updatedName);
+          pm.collectionVariables.set("expectedUpdatedName", updatedName);
+      }
+    language: text/javascript
+  - type: beforeRequest
+    code: "// Pre-request script for Orders folder/requests\r
+
+      const accessToken = pm.environment.get(\"accessToken\");\r
+
+      \r
+
+      if (!accessToken) {\r
+
+      \    console.error(\"accessToken is not set. Ensure 'Register API Client'
+      runs first.\");\r
+
+      \    throw new Error(\"Missing accessToken - cannot authenticate order
+      requests\");\r
+
+      }"
+    language: text/javascript
+order: 8000

@@ -1,0 +1,42 @@
+$kind: http-request
+name: Get Single Book
+method: GET
+url: '{{baseUrl}}/books/:bookId'
+order: 4000
+pathVariables:
+  - key: bookId
+    value: '{{bookId}}'
+scripts:
+  - type: beforeRequest
+    language: text/javascript
+    code: |-
+      // Capture the UI path variable into a script-accessible variable
+      const pathVar = pm.globals.get('bookId');
+      pm.variables.set("tmp_bookId", pathVar);
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const response = pm.response.json();
+      const expectedId = pm.variables.get("tmp_bookId");
+
+      pm.test("Status code is 200", () => {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("Response contains correct Book Metadata", () => {
+          pm.expect(response.id).to.equal(Number(expectedId));
+          pm.expect(response.entityType).to.equal("BOOK");
+          pm.expect(response.type).to.be.oneOf(["fiction", "non-fiction"]);
+      });
+
+      pm.test("Data types are correct", () => {
+          pm.expect(response.name).to.be.a('string');
+          pm.expect(response.author).to.be.a('string');
+          pm.expect(response.price).to.be.a('number');
+          pm.expect(response.available).to.be.a('boolean');
+      });
+
+      pm.test("Stock and Price are valid numbers", () => {
+          pm.expect(response['current-stock']).to.be.at.least(0);
+          pm.expect(response.price).to.be.above(0);
+      });

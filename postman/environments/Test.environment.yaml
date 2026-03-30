@@ -1,0 +1,9 @@
+name: Test
+values:
+  - key: baseUrl
+    value: ""
+    enabled: true
+  - key: accessToken
+    value: 6ecba5bca6c3b1d36ed70aa872b5ee8a254c0012fb6355c4cbe0ae512a488695
+    enabled: true
+color: null

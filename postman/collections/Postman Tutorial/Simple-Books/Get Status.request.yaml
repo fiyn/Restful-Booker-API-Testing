@@ -1,0 +1,32 @@
+$kind: http-request
+url: "{{baseUrl}}/status"
+method: GET
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code is 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      const response = pm.response.json();\r
+
+      \r
+
+      console.log(response.status);\r
+
+      console.log(response['status']);\r
+
+      \r
+
+      //Callback function\r
+
+      pm.test(\"Status should be OK\", () => {\r
+
+      \    pm.expect(response.status).to.eql(\"OK\");\r
+
+      });"
+    language: text/javascript
+order: 1000

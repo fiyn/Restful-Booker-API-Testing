@@ -1,0 +1,34 @@
+$kind: http-request
+url: "{{baseUrl}}/api-clients"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \   \"clientName\": \"{{$randomFirstName}}\",\r
+
+    \   \"clientEmail\": \"{{$randomExampleEmail}}\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: |-
+      // Test for successful status code
+      pm.test("Status code is 201", function () {
+          pm.response.to.have.status(201);
+      });
+
+      // Extract and save accessToken on success
+      if (pm.response.code === 201) {
+          const jsonData = pm.response.json();
+          const token = jsonData.accessToken || jsonData.token;
+          
+          if (token) {
+              pm.environment.set("accessToken", token);
+              console.log("accessToken saved to environment");
+          } else {
+              console.log("No token or accessToken field found in response");
+          }
+      }
+    language: text/javascript
+order: 2000

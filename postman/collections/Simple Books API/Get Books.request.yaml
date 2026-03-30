@@ -1,0 +1,35 @@
+$kind: http-request
+name: Get Books
+method: GET
+url: '{{baseUrl}}/books'
+order: 3000
+queryParams:
+  - key: type
+    value: fiction
+    disabled: true
+  - key: limit
+    value: '20'
+    disabled: true
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      const response = pm.response.json();
+
+      const nonFictionBooks = response.filter(book => book.available === true);
+
+      const book = nonFictionBooks[0];
+
+      if (book) {
+          pm.globals.set("bookId", nonFictionBooks[0].id);
+      }
+
+      pm.test("Book found", () => {
+          pm.expect(book).to.be.an('object');
+          pm.expect(book.available).to.be.true;
+          pm.expect(book.type).to.eql("fiction");
+      });

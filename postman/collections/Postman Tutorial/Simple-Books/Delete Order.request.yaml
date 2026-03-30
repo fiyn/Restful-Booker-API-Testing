@@ -1,0 +1,42 @@
+$kind: http-request
+url: "{{baseUrl}}/orders/:orderId"
+method: DELETE
+pathVariables:
+  orderId: "{{lastOrderId}}"
+body:
+  type: text
+  content: "{\r
+
+    \    \"customerName\": \"Sam {{$randomLastName}}\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code is 204\", function () {\r
+
+      \    pm.response.to.have.status(204);\r
+
+      });\r
+
+      \r
+
+      pm.execution.setNextRequest(null);"
+    language: text/javascript
+  - type: beforeRequest
+    code: "// Pre-request script for Orders folder/requests\r
+
+      const accessToken = pm.environment.get(\"accessToken\");\r
+
+      \r
+
+      if (!accessToken) {\r
+
+      \    console.error(\"accessToken is not set. Ensure 'Register API Client'
+      runs first.\");\r
+
+      \    throw new Error(\"Missing accessToken - cannot authenticate order
+      requests\");\r
+
+      }"
+    language: text/javascript
+order: 9000

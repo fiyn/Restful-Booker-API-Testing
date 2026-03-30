@@ -1,0 +1,49 @@
+$kind: http-request
+name: Get All Orders
+method: GET
+url: '{{baseUrl}}/orders'
+order: 6000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{accessToken}}'
+scripts:
+  - type: beforeRequest
+    language: text/javascript
+    code: |-
+      // Pre-request script for Orders folder/requests
+      const accessToken = pm.environment.get("accessToken");
+
+      if (!accessToken) {
+          console.error("accessToken is not set. Ensure 'Register API Client' runs first.");
+          throw new Error("Missing accessToken - cannot authenticate order requests");
+      }
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const response = pm.response.json();
+      const savedOrderId = pm.globals.get("lastOrderId");
+
+      pm.test("Status code is 200", () => {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("Response is an array", () => {
+          pm.expect(response).to.be.an('array');
+      });
+
+      pm.test("Each order has required fields", () => {
+          response.forEach((order) => {
+              pm.expect(order).to.have.property('id');
+              pm.expect(order).to.have.property('bookId');
+              pm.expect(order).to.have.property('customerName');
+              pm.expect(order).to.have.property('quantity');
+          });
+      });
+
+      pm.test("Newly created order is present in the list", () => {
+          const myOrder = response.find(order => order.id === savedOrderId);
+          pm.expect(myOrder, "Order ID from previous POST not found in list").to.not.be.undefined;
+          console.log("Found our order in the list:", myOrder);
+      });

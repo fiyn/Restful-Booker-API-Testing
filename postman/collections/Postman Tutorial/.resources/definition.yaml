@@ -1,0 +1,11 @@
+$kind: collection
+variables:
+  baseUrl: ""
+  accessToken: ""
+  expectedUpdatedName: ""
+auth:
+  - id: d77168f3-99a9-4c42-860e-6dae06dd0299
+    type: bearer
+    name: bearer auth
+    credentials:
+      token: "{{accessToken}}"

@@ -1,0 +1,19 @@
+$kind: collection
+scripts:
+  - type: http:beforeRequest
+    code: "// A value that only these folder requests care about\r
+
+      pm.variables.set(\"requestId\", `simple-books-${Date.now()}`);\r
+
+      \r
+
+      // Ensure baseUrl is set (fallback if env not set)\r
+
+      if (!pm.environment.get(\"baseUrl\")) {\r
+
+      \    pm.environment.set(\"baseUrl\",
+      \"https://simple-books-api.glitch.me\");\r
+
+      }"
+    language: text/javascript
+order: 1000

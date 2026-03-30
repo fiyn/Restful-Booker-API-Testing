@@ -1,0 +1,36 @@
+$kind: http-request
+name: Register API Client
+method: POST
+url: '{{baseUrl}}/api-clients'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+       "clientName": "{{$randomFirstName}}",
+       "clientEmail": "{{$randomExampleEmail}}"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      // Test for successful status code
+      pm.test("Status code is 201", function () {
+          pm.response.to.have.status(201);
+      });
+
+      // Extract and save accessToken on success
+      if (pm.response.code === 201) {
+          const jsonData = pm.response.json();
+          const token = jsonData.accessToken || jsonData.token;
+
+          if (token) {
+              pm.environment.set("accessToken", token);
+              console.log("accessToken saved to environment");
+          } else {
+              console.log("No token or accessToken field found in response");
+          }
+      }

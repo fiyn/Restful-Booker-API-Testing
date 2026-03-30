@@ -1,0 +1,71 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/books"
+  method: GET
+  queryParams:
+    - key: type
+      value: fiction
+      disabled: true
+    - key: limit
+      value: "20"
+      disabled: true
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    Content-Type: application/json
+    Content-Length: "417"
+    Connection: keep-alive
+    Date: Tue, 23 Dec 2025 07:39:43 GMT
+    X-Amzn-Trace-Id: Root=1-694a473f-6f275c8479865c812a0806d4;Parent=7b25fc7413f46d83;Sampled=0;Lineage=1:9ee0f5ed:0
+    x-amzn-RequestId: 6cdd6f3e-a1bd-4871-8cb9-0274f7c8f304
+    Access-Control-Allow-Origin: "*"
+    Access-Control-Allow-Headers: Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token
+    x-amz-apigw-id: WCASAEOKIAMEsPg=
+    Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH
+    X-Cache: Miss from cloudfront
+    Via: 1.1 4bc97e7cd44fb8287ab34fc40aa16b80.cloudfront.net (CloudFront)
+    X-Amz-Cf-Pop: KUL51-P1
+    X-Amz-Cf-Id: yOSdn11inNwi2jABdc4smTkl7DaQzv1ayrj9wMSlQ0x1TYQdLRPMlw==
+  body:
+    type: text
+    content: |-
+      [
+          {
+              "id": 1,
+              "name": "The Russian",
+              "type": "fiction",
+              "available": true
+          },
+          {
+              "id": 3,
+              "name": "The Vanishing Half",
+              "type": "fiction",
+              "available": true
+          },
+          {
+              "id": 4,
+              "name": "The Midnight Library",
+              "type": "fiction",
+              "available": true
+          },
+          {
+              "id": 6,
+              "name": "Viscount Who Loved Me",
+              "type": "fiction",
+              "available": true
+          },
+          {
+              "id": 2,
+              "name": "Just as I Am",
+              "type": "non-fiction",
+              "available": false
+          },
+          {
+              "id": 5,
+              "name": "Untamed",
+              "type": "non-fiction",
+              "available": true
+          }
+      ]
+order: 1000

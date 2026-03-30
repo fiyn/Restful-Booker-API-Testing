@@ -1,0 +1,60 @@
+$kind: http-request
+name: Order Book
+method: POST
+url: '{{baseUrl}}/orders'
+order: 5000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{accessToken}}'
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "bookId": {{bookId}},
+      "customerName": "{{$randomFullName}}"
+    }
+scripts:
+  - type: beforeRequest
+    language: text/javascript
+    code: |-
+      // Pre-request script for Orders folder/requests
+      const accessToken = pm.environment.get("accessToken");
+
+      if (!accessToken) {
+          console.error("accessToken is not set. Ensure 'Register API Client' runs first.");
+          throw new Error("Missing accessToken - cannot authenticate order requests");
+      }
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      // Parse response
+      const response = pm.response.json();
+
+      pm.test("Status code is 201 Created", () => {
+          pm.response.to.have.status(201);
+      });
+
+      pm.test("Response body has the correct structure", () => {
+          pm.expect(response).to.have.property('created');
+          pm.expect(response).to.have.property('orderId');
+      });
+
+      pm.test("Order confirmation is true", () => {
+          pm.expect(response.created).to.be.true;
+      });
+
+      pm.test("OrderID is a valid string", () => {
+          pm.expect(response.orderId).to.be.a('string');
+          pm.expect(response.orderId.length).to.be.above(0);
+      });
+
+      // Capture the Order ID for future requests (like GET or DELETE order)
+      if (response.created === true) {
+          pm.globals.set("lastOrderId", response.orderId);
+          console.log("Saved Order ID:", response.orderId);
+      }

@@ -1,0 +1,22 @@
+$kind: collection
+name: Simple Books API
+description: |-
+  A Postman v3 collection for the Simple Books API (https://simple-books-api.glitch.me).
+  Covers all endpoints: status check, API client registration, books, and orders.
+  Orders endpoints require Bearer token authentication via {{accessToken}}.
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{accessToken}}'
+variables:
+  - key: baseUrl
+    value: 'https://simple-books-api.glitch.me'
+  - key: accessToken
+    value: ''
+  - key: bookId
+    value: ''
+  - key: lastOrderId
+    value: ''
+  - key: expectedUpdatedName
+    value: ''

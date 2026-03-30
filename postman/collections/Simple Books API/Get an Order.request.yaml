@@ -1,0 +1,45 @@
+$kind: http-request
+name: Get an Order
+method: GET
+url: '{{baseUrl}}/orders/:orderId'
+order: 7000
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{accessToken}}'
+pathVariables:
+  - key: orderId
+    value: '{{lastOrderId}}'
+scripts:
+  - type: beforeRequest
+    language: text/javascript
+    code: |-
+      // Pre-request script for Orders folder/requests
+      const accessToken = pm.environment.get("accessToken");
+
+      if (!accessToken) {
+          console.error("accessToken is not set. Ensure 'Register API Client' runs first.");
+          throw new Error("Missing accessToken - cannot authenticate order requests");
+      }
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      const response = pm.response.json();
+      const savedOrderId = pm.globals.get("lastOrderId");
+
+      pm.test("Status code is 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("Check order required fields", () => {
+          pm.expect(response).to.have.property('id');
+          pm.expect(response).to.have.property('bookId');
+          pm.expect(response).to.have.property('customerName');
+          pm.expect(response).to.have.property('quantity');
+          pm.expect(response).to.have.property('timestamp');
+      });
+
+      pm.test("Check order id matches", () => {
+          pm.expect(response.id).to.equal(savedOrderId);
+      });

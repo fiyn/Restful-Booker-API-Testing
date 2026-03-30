@@ -1,0 +1,152 @@
+$kind: http-request
+url: "{{baseUrl}}/books/:bookId"
+method: GET
+pathVariables:
+  bookId: "{{bookId}}"
+body:
+  type: text
+  content: ""
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    code: "const response = pm.response.json();\r
+
+      const expectedId = pm.variables.get(\"tmp_bookId\");\r
+
+      \r
+
+      // --- TESTS ---\r
+
+      \r
+
+      pm.test(\"Status code is 200\", () => {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Response contains correct Book Metadata\", () => {\r
+
+      \    // Validate the ID we captured earlier\r
+
+      \    pm.expect(response.id).to.equal(Number(expectedId));\r
+
+      \    \r
+
+      \    // Validate specific string values\r
+
+      \    pm.expect(response.entityType).to.equal(\"BOOK\");\r
+
+      \    pm.expect(response.type).to.be.oneOf([\"fiction\",
+      \"non-fiction\"]);\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Data types are correct\", () => {\r
+
+      \    pm.expect(response.name).to.be.a('string');\r
+
+      \    pm.expect(response.author).to.be.a('string');\r
+
+      \    pm.expect(response.price).to.be.a('number');\r
+
+      \    pm.expect(response.available).to.be.a('boolean');\r
+
+      });\r
+
+      \r
+
+      pm.test(\"Stock and Price are valid numbers\", () => {\r
+
+      \    pm.expect(response['current-stock']).to.be.at.least(0);\r
+
+      \    pm.expect(response.price).to.be.above(0);\r
+
+      });\r
+
+      \r
+
+      // 1. Define the Blueprint (Schema)\r
+
+      // const schema = {\r
+
+      //     \"type\": \"object\",\r
+
+      //     \"required\": [\"id\", \"name\", \"author\", \"current-stock\",
+      \"price\", \"PK\", \"SK\"],\r
+
+      //     \"properties\": {\r
+
+      //         \"id\": { \"type\": \"number\" },\r
+
+      //         \"entityType\": { \"type\": \"string\", \"enum\": [\"BOOK\"]
+      },\r
+
+      //         \"available\": { \"type\": \"boolean\" },\r
+
+      //         \"timestamp\": { \"type\": \"number\" },\r
+
+      //         \"created\": { \"type\": \"string\", \"format\": \"date-time\"
+      },\r
+
+      //         \"name\": { \"type\": \"string\" },\r
+
+      //         \"author\": { \"type\": \"string\" },\r
+
+      //         \"current-stock\": { \"type\": \"number\", \"minimum\": 0 },\r
+
+      //         \"price\": { \"type\": \"number\", \"exclusiveMinimum\": 0 },\r
+
+      //         \"PK\": { \"type\": \"string\", \"pattern\": \"^BOOK#\\\\d+$\"
+      },\r
+
+      //         \"SK\": { \"type\": \"string\", \"const\": \"METADATA\" },\r
+
+      //         \"type\": { \"type\": \"string\" }\r
+
+      //     }\r
+
+      // };\r
+
+      \r
+
+      // 2. Parse the actual response\r
+
+      // const response = pm.response.json();\r
+
+      \r
+
+      // 3. Run the validation\r
+
+      // pm.test(\"Response schema is valid\", function () {\r
+
+      //     pm.expect(tv4.validate(response, schema)).to.be.true;\r
+
+      // });\r
+
+      \r
+
+      // 4. (Optional) Still check the specific ID from your path variable\r
+
+      // const expectedId = Number(pm.variables.get(\"tmp_bookId\"));\r
+
+      // pm.test(`ID matches requested path variable: ${expectedId}`, function
+      () {\r
+
+      //     pm.expect(response.id).to.equal(expectedId);\r
+
+      // });"
+    language: text/javascript
+  - type: beforeRequest
+    code: "// Capture the UI path variable into a script-accessible variable\r
+
+      const pathVar = pm.globals.get('bookId');\r
+
+      pm.variables.set(\"tmp_bookId\", pathVar);"
+    language: text/javascript
+order: 4000

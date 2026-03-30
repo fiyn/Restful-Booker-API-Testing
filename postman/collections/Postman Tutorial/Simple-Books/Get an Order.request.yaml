@@ -1,0 +1,46 @@
+$kind: http-request
+url: "{{baseUrl}}/orders/:orderId"
+method: GET
+pathVariables:
+  orderId: "{{lastOrderId}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      const response = pm.response.json();
+      // const expectedName = pm.collectionVariables.get("expectedUpdatedName");
+      const savedOrderId = pm.globals.get("lastOrderId");
+
+      pm.test("Status code is 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("Check order required fields", () => {
+          pm.expect(response).to.have.property('id');
+          pm.expect(response).to.have.property('bookId');
+          pm.expect(response).to.have.property('customerName');
+          pm.expect(response).to.have.property('quantity');
+          pm.expect(response).to.have.property('timestamp');
+      });
+
+      pm.test("Check order id matches", () => {
+          pm.expect(response.id).to.equal(savedOrderId);
+      });
+    language: text/javascript
+  - type: beforeRequest
+    code: "// Pre-request script for Orders folder/requests\r
+
+      const accessToken = pm.environment.get(\"accessToken\");\r
+
+      \r
+
+      if (!accessToken) {\r
+
+      \    console.error(\"accessToken is not set. Ensure 'Register API Client'
+      runs first.\");\r
+
+      \    throw new Error(\"Missing accessToken - cannot authenticate order
+      requests\");\r
+
+      }"
+    language: text/javascript
+order: 7000
