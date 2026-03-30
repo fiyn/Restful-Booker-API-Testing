@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Postman Tutorial" tests="9" time="6.699">
+  <testsuite name="Simple-Books / Get Status" id="ae717995-8210-4f35-80df-908fa58ec103" timestamp="2025-12-24T09:24:37.346Z" tests="2" failures="0" errors="0" time="0.674">
+    <testcase name="Status code is 200" time="0.674" classname="SimpleBooksGetStatus"/>
+    <testcase name="Status should be OK" time="0.674" classname="SimpleBooksGetStatus"/>
+  </testsuite>
+  <testsuite name="Simple-Books / Register API Client" id="a997247a-30ea-44b8-8fe5-0f56499c0ea4" timestamp="2025-12-24T09:24:37.346Z" tests="1" failures="0" errors="0" time="0.791">
+    <testcase name="Status code is 201" time="0.791" classname="SimpleBooksRegisterApiClient"/>
+  </testsuite>
+  <testsuite name="Simple-Books / Get Books" id="c9966cb3-bc75-4d82-a525-ae9dd2d053a8" timestamp="2025-12-24T09:24:37.346Z" tests="2" failures="0" errors="0" time="0.755">
+    <testcase name="Status code is 200" time="0.755" classname="SimpleBooksGetBooks"/>
+    <testcase name="Book found" time="0.755" classname="SimpleBooksGetBooks"/>
+  </testsuite>
+  <testsuite name="Simple-Books / Get Single Book" id="bfe402a4-dba7-4ba6-afed-6f10483def29" timestamp="2025-12-24T09:24:37.346Z" tests="4" failures="0" errors="0" time="0.785">
+    <testcase name="Status code is 200" time="0.785" classname="SimpleBooksGetSingleBook"/>
+    <testcase name="Response contains correct Book Metadata" time="0.785" classname="SimpleBooksGetSingleBook"/>
+    <testcase name="Data types are correct" time="0.785" classname="SimpleBooksGetSingleBook"/>
+    <testcase name="Stock and Price are valid numbers" time="0.785" classname="SimpleBooksGetSingleBook"/>
+  </testsuite>
+  <testsuite name="Simple-Books / Order Book" id="2a6feb17-8013-4e55-897c-e745bbf57eed" timestamp="2025-12-24T09:24:37.346Z" tests="4" failures="4" errors="0" time="0.725">
+    <testcase name="Status code is 201 Created" time="0.725" classname="SimpleBooksOrderBook">
+      <failure type="AssertionFailure" message="expected response to have status code 201 but got 401">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 04e08813-4c8c-4e4d-905f-302ca911fa1f.]]>
+        <![CDATA[Collection name: Postman Tutorial.]]>
+        <![CDATA[Request name: Simple-Books / Order Book.]]>
+        <![CDATA[Test description: Status code is 201 Created.]]>
+        <![CDATA[Error message: expected response to have status code 201 but got 401.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 201 but got 401
+   at Object.eval sandbox-script.js:1:5).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response body has the correct structure" time="0.725" classname="SimpleBooksOrderBook">
+      <failure type="AssertionFailure" message="expected { Object (error) } to have property 'created'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 04e08813-4c8c-4e4d-905f-302ca911fa1f.]]>
+        <![CDATA[Collection name: Postman Tutorial.]]>
+        <![CDATA[Request name: Simple-Books / Order Book.]]>
+        <![CDATA[Test description: Response body has the correct structure.]]>
+        <![CDATA[Error message: expected { Object (error) } to have property 'created'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected { Object (error) } to have property 'created'
+   at Object.eval sandbox-script.js:2:5).]]>
+      </failure>
+    </testcase>
+    <testcase name="Order confirmation is true" time="0.725" classname="SimpleBooksOrderBook">
+      <failure type="AssertionFailure" message="expected undefined to be true">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 04e08813-4c8c-4e4d-905f-302ca911fa1f.]]>
+        <![CDATA[Collection name: Postman Tutorial.]]>
+        <![CDATA[Request name: Simple-Books / Order Book.]]>
+        <![CDATA[Test description: Order confirmation is true.]]>
+        <![CDATA[Error message: expected undefined to be true.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be true
+   at Object.eval sandbox-script.js:3:5).]]>
+      </failure>
+    </testcase>
+    <testcase name="OrderID is a valid string" time="0.725" classname="SimpleBooksOrderBook">
+      <failure type="AssertionFailure" message="expected undefined to be a string">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 04e08813-4c8c-4e4d-905f-302ca911fa1f.]]>
+        <![CDATA[Collection name: Postman Tutorial.]]>
+        <![CDATA[Request name: Simple-Books / Order Book.]]>
+        <![CDATA[Test description: OrderID is a valid string.]]>
+        <![CDATA[Error message: expected undefined to be a string.]]>
+        <![CDATA[Stacktrace: AssertionError: expected undefined to be a string
+   at Object.eval sandbox-script.js:4:5).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Simple-Books / Get All Orders" id="e19ea9a1-4b94-4594-b43a-f06e9eeab92b" timestamp="2025-12-24T09:24:37.346Z" tests="4" failures="4" errors="0" time="0.750">
+    <testcase name="Status code is 200" time="0.750" classname="SimpleBooksGetAllOrders">
+      <failure type="AssertionFailure" message="expected response to have status code 200 but got 401">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 04e08813-4c8c-4e4d-905f-302ca911fa1f.]]>
+        <![CDATA[Collection name: Postman Tutorial.]]>
+        <![CDATA[Request name: Simple-Books / Get All Orders.]]>
+        <![CDATA[Test description: Status code is 200.]]>
+        <![CDATA[Error message: expected response to have status code 200 but got 401.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 200 but got 401
+   at Object.eval sandbox-script.js:1:6).]]>
+      </failure>
+    </testcase>
+    <testcase name="Response is an array" time="0.750" classname="SimpleBooksGetAllOrders">
+      <failure type="AssertionFailure" message="expected { Object (error) } to be an array">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 04e08813-4c8c-4e4d-905f-302ca911fa1f.]]>
+        <![CDATA[Collection name: Postman Tutorial.]]>
+        <![CDATA[Request name: Simple-Books / Get All Orders.]]>
+        <![CDATA[Test description: Response is an array.]]>
+        <![CDATA[Error message: expected { Object (error) } to be an array.]]>
+        <![CDATA[Stacktrace: AssertionError: expected { Object (error) } to be an array
+   at Object.eval sandbox-script.js:2:6).]]>
+      </failure>
+    </testcase>
+    <testcase name="Each order has required fields" time="0.750" classname="SimpleBooksGetAllOrders">
+      <failure type="AssertionFailure" message="response.forEach is not a function">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 04e08813-4c8c-4e4d-905f-302ca911fa1f.]]>
+        <![CDATA[Collection name: Postman Tutorial.]]>
+        <![CDATA[Request name: Simple-Books / Get All Orders.]]>
+        <![CDATA[Test description: Each order has required fields.]]>
+        <![CDATA[Error message: response.forEach is not a function.]]>
+        <![CDATA[Stacktrace: TypeError: response.forEach is not a function
+   at Object.eval sandbox-script.js:3:6).]]>
+      </failure>
+    </testcase>
+    <testcase name="Newly created order is present in the list" time="0.750" classname="SimpleBooksGetAllOrders">
+      <failure type="AssertionFailure" message="response.find is not a function">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 04e08813-4c8c-4e4d-905f-302ca911fa1f.]]>
+        <![CDATA[Collection name: Postman Tutorial.]]>
+        <![CDATA[Request name: Simple-Books / Get All Orders.]]>
+        <![CDATA[Test description: Newly created order is present in the list.]]>
+        <![CDATA[Error message: response.find is not a function.]]>
+        <![CDATA[Stacktrace: TypeError: response.find is not a function
+   at Object.eval sandbox-script.js:4:6).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Simple-Books / Get an Order" id="1a59c056-e5f8-4adc-8943-76d16059ab05" timestamp="2025-12-24T09:24:37.346Z" tests="3" failures="2" errors="0" time="0.766">
+    <testcase name="Status code is 200" time="0.766" classname="SimpleBooksGetAnOrder">
+      <failure type="AssertionFailure" message="expected response to have status code 200 but got 401">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 04e08813-4c8c-4e4d-905f-302ca911fa1f.]]>
+        <![CDATA[Collection name: Postman Tutorial.]]>
+        <![CDATA[Request name: Simple-Books / Get an Order.]]>
+        <![CDATA[Test description: Status code is 200.]]>
+        <![CDATA[Error message: expected response to have status code 200 but got 401.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 200 but got 401
+   at Object.eval sandbox-script.js:1:7).]]>
+      </failure>
+    </testcase>
+    <testcase name="Check order required fields" time="0.766" classname="SimpleBooksGetAnOrder">
+      <failure type="AssertionFailure" message="expected { Object (error) } to have property 'id'">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 04e08813-4c8c-4e4d-905f-302ca911fa1f.]]>
+        <![CDATA[Collection name: Postman Tutorial.]]>
+        <![CDATA[Request name: Simple-Books / Get an Order.]]>
+        <![CDATA[Test description: Check order required fields.]]>
+        <![CDATA[Error message: expected { Object (error) } to have property 'id'.]]>
+        <![CDATA[Stacktrace: AssertionError: expected { Object (error) } to have property 'id'
+   at Object.eval sandbox-script.js:2:7).]]>
+      </failure>
+    </testcase>
+    <testcase name="Check order id matches" time="0.766" classname="SimpleBooksGetAnOrder"/>
+  </testsuite>
+  <testsuite name="Simple-Books / Update Order" id="85051a25-357e-4422-9408-1fd1976afd1b" timestamp="2025-12-24T09:24:37.346Z" tests="1" failures="1" errors="0" time="0.731">
+    <testcase name="Status code is 204" time="0.731" classname="SimpleBooksUpdateOrder">
+      <failure type="AssertionFailure" message="expected 401 to equal 204">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 04e08813-4c8c-4e4d-905f-302ca911fa1f.]]>
+        <![CDATA[Collection name: Postman Tutorial.]]>
+        <![CDATA[Request name: Simple-Books / Update Order.]]>
+        <![CDATA[Test description: Status code is 204.]]>
+        <![CDATA[Error message: expected 401 to equal 204.]]>
+        <![CDATA[Stacktrace: AssertionError: expected 401 to equal 204
+   at Object.eval sandbox-script.js:1:8).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Simple-Books / Delete Order" id="c26317cf-369b-49cb-8f30-b5ef94e45082" timestamp="2025-12-24T09:24:37.346Z" tests="1" failures="1" errors="0" time="0.722">
+    <testcase name="Status code is 204" time="0.722" classname="SimpleBooksDeleteOrder">
+      <failure type="AssertionFailure" message="expected response to have status code 204 but got 401">
+        <![CDATA[Failed 1 times.]]>
+        <![CDATA[Collection JSON ID: 04e08813-4c8c-4e4d-905f-302ca911fa1f.]]>
+        <![CDATA[Collection name: Postman Tutorial.]]>
+        <![CDATA[Request name: Simple-Books / Delete Order.]]>
+        <![CDATA[Test description: Status code is 204.]]>
+        <![CDATA[Error message: expected response to have status code 204 but got 401.]]>
+        <![CDATA[Stacktrace: AssertionError: expected response to have status code 204 but got 401
+   at Object.eval sandbox-script.js:1:9).]]>
+      </failure>
+    </testcase>
+  </testsuite>
+</testsuites>
